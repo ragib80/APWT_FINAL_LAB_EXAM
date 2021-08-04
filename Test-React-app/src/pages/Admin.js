@@ -3,8 +3,57 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 
 class Admin extends Component {
+    state = {
+        employees: [],
+        loading: true,
+    }
+
+    async componentDidMount() {
+        const res = await axios.get('http://127.0.0.1:8000/api/employees');
+        //console.log(res) ;   
+        if (res.data.status === 200) {
+            this.setState({
+                employees: res.data.employees,
+                loading: false,
+            });
+
+        }
+    }
 
     render() {
+        var employee_table = "";
+
+        if (this.state.loading) {
+            employee_table = <tr>
+                <td colSpan="6">
+                    <h2>loadong....</h2>
+                </td>
+
+            </tr>
+
+        }
+        else {
+            employee_table =
+                this.state.employees.map((item) => {
+                    return (
+                        <tr key={item.id}>
+                            <td>{item.name}</td>
+                            <td>{item.username}</td>
+                            <td>{item.companyname}</td>
+                            <td>{item.email}</td>
+                            <td>{item.phone}</td>
+                            <td>
+                                <Link to={`edit-student/${item.id}`} className="btn btn-success btn sm">Edit</Link>
+                            </td>
+                            <td>
+                                <button type="button" onClick={(e) => this.deleteStudent(e, item.id)} className='btn btn-danger btn-sm'>Delete</button>
+                            </td>
+
+                        </tr>
+                    );
+
+                });
+        }
 
         return (
             <div className="container" >
@@ -31,20 +80,7 @@ class Admin extends Component {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr >
-                                        <td>abc</td>
-                                        <td>xyz</td>
-                                        <td>it inter national</td>
-                                        <td>abc@gmail.com</td>
-                                        <td>02554545</td>
-                                        <td>
-                                            <button type="button" className="btn btn-success btn sm">Edit</button>
-                                        </td>
-                                        <td>
-                                            <button type="button" className='btn btn-danger btn-sm'>Delete</button>
-                                        </td>
-
-                                    </tr>
+                                    {employee_table}
                                 </tbody>
 
                             </table>
