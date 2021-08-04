@@ -3,6 +3,7 @@ import './App.css';
 import Admin from './pages/Admin';
 import Navbar from './pages/Navbar';
 import AddEmployer from './pages/AddEmployer';
+import EditEmployeer from './pages/EditEmployeer';
 import AddJob from './pages/AddJob';
 import Login from './pages/Login';
 import Home from './pages/EmployeeHome';
@@ -26,6 +27,13 @@ function App() {
             <div >
               <Navbar />
               <AddEmployer />
+            </div>
+          </Route>
+
+          <Route path='/edit-employer/update/:id'>
+            <div >
+              <Navbar />
+              <EditEmployeer />
             </div>
           </Route>
 

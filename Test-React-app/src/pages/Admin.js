@@ -19,6 +19,17 @@ class Admin extends Component {
 
         }
     }
+    deleteStudent = async (e, id) => {
+        console.log(id);
+        const clicked = e.currentTarget;
+        clicked.innerText = "deleting..";
+        const res = await axios.delete(`http://localhost:8000/api/delete-employee/${id}`);
+
+        if (res.data.status === 200) {
+            clicked.closest("tr").remove();
+            console.log(res.data.message);
+        }
+    }
 
     render() {
         var employee_table = "";
@@ -43,7 +54,7 @@ class Admin extends Component {
                             <td>{item.email}</td>
                             <td>{item.phone}</td>
                             <td>
-                                <Link to={`edit-student/${item.id}`} className="btn btn-success btn sm">Edit</Link>
+                                <Link to={`edit-employer/update/${item.id}`} className="btn btn-success btn sm">Edit</Link>
                             </td>
                             <td>
                                 <button type="button" onClick={(e) => this.deleteStudent(e, item.id)} className='btn btn-danger btn-sm'>Delete</button>

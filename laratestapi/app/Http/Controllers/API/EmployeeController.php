@@ -24,6 +24,30 @@ class EmployeeController extends Controller
 
         ]);
     }
+
+    function update(Request $req,$id)
+    {
+        $employee = Employee::find($id);
+        $employee->name = $req->name;
+        $employee->username = $req->username;
+        $employee->companyname = $req->companyname;
+        $employee->email = $req->email;
+        $employee->phone = $req->phone;
+        $employee->password=$req->password;
+         $employee->save();
+        return response()->json([
+            'status'=>200,
+            'message'=>"Added Succesfully",
+ 
+         ]);
+    }
+    public function details($id)
+    {
+        
+        $deta = Employee::find($id);
+        return $deta;
+    }
+
     public function index(){
         $employees=Employee::all();
         return response()->json([
@@ -33,4 +57,16 @@ class EmployeeController extends Controller
          ]);
 
     }
+
+
+    public function distroy($id){
+        $students = Employee::find($id);
+        $students->delete();
+        return response()->json([
+            'status'=>200,
+            'message'=>"Deleted  Succesfully",
+ 
+         ]);
+    }
+
 }
