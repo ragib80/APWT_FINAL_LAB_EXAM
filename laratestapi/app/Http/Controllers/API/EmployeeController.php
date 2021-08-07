@@ -60,13 +60,28 @@ class EmployeeController extends Controller
 
 
     public function distroy($id){
-        $students = Employee::find($id);
-        $students->delete();
+        $employee = Employee::find($id);
+        $employee->delete();
         return response()->json([
             'status'=>200,
             'message'=>"Deleted  Succesfully",
  
          ]);
+    }
+
+    public function SearchEmployee(Request $request,$keyowrd){
+
+        $data=Employee::where('name', 'like', '%' . $keyowrd . '%')
+            ->orWhere('email', 'like', '%' . $keyowrd . '%')
+            ->get();
+            
+        if($data){
+            return response()->json($data, 200);
+        }else{
+            return response()->json([
+                'code'=>401, 
+                'message' => 'No Product Found!']);
+        }
     }
 
 }

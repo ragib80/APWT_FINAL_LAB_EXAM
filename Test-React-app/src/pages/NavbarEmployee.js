@@ -8,6 +8,7 @@ const NavbarEmployee = () => {
                 <div className="col col-lg-2">
                     <Link to='/home' className="btn btn-info">Index</Link>
                 </div>
+                <h2>Employee Index</h2>
 
                 <Link to='/add-job' className="btn btn-primary btn-sm">Add Job</Link>
 

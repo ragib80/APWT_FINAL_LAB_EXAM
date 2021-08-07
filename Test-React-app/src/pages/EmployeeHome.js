@@ -1,19 +1,43 @@
-import React from 'react'
+import React from 'react';
+import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import axios from 'axios';
 
 import { useHistory, useParams } from "react-router-dom";
 
 const EmployeeHome = () => {
 
+    const [data, setData] = useState([])
+
+    useEffect(() => {
+        axios.get('http://127.0.0.1:8000/api/home')
+            .then(response => {
+                setData(response.data);
+
+            });
+
+
+    }, [])
 
     const btnstyle = { margin: '8px 0' }
 
 
     let history = useHistory();
 
+    function deleteJob(e, id) {
+        console.log(id);
+        const clicked = e.currentTarget;
+        clicked.innerText = "deleting..";
+        const res = axios.delete(`http://localhost:8000/api/delete-job/${id}`);
 
+        if (res.data !== null) {
+            clicked.closest("tr").remove();
+
+        }
+    }
 
     const logout = () => {
-        localStorage.removeItem("users")
+
         history.push("/");
     }
 
@@ -31,7 +55,7 @@ const EmployeeHome = () => {
                 <div className="row">
                     <div className="col-md-12">
                         <div className="card">
-                            <h4>Employee Index
+                            <h4>Job Index
 
                             </h4>
 
@@ -51,20 +75,29 @@ const EmployeeHome = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr >
-                                        <td>abc</td>
-                                        <td>xyz</td>
-                                        <td>dhaka</td>
-                                        <td>10000</td>
 
-                                        <td>
-                                            <button type="button" className="btn btn-success btn sm">Edit</button>
-                                        </td>
-                                        <td>
-                                            <button type="button" className='btn btn-danger btn-sm'>Delete</button>
-                                        </td>
+                                    {
+                                        data.map(row => {
+                                            return (
+                                                <tr key={row.id}>
+                                                    <td>{row.c_name}</td>
+                                                    <td>{row.job_title}</td>
+                                                    <td>{row.job_location}</td>
+                                                    <td>{row.salary}</td>
+                                                    <td><Link to={`edit-job/update/${row.id}`} className="btn btn-success btn sm">Edit</Link> </td>
+                                                    <td> <button type="button" onClick={(e) => deleteJob(e, row.id)} className='btn btn-danger btn-sm'>Delete</button>
+                                                    </td>
 
-                                    </tr>
+                                                </tr>
+
+                                            );
+                                        })
+                                    }
+
+
+
+
+
                                 </tbody>
 
                             </table>
@@ -77,8 +110,8 @@ const EmployeeHome = () => {
             </div>
 
 
-        </div>
+        </div >
     )
 }
 
-export default EmployeeHome
+export default EmployeeHome;

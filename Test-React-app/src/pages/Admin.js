@@ -19,7 +19,7 @@ class Admin extends Component {
 
         }
     }
-    deleteStudent = async (e, id) => {
+    deleteEmployee = async (e, id) => {
         console.log(id);
         const clicked = e.currentTarget;
         clicked.innerText = "deleting..";
@@ -57,7 +57,7 @@ class Admin extends Component {
                                 <Link to={`edit-employer/update/${item.id}`} className="btn btn-success btn sm">Edit</Link>
                             </td>
                             <td>
-                                <button type="button" onClick={(e) => this.deleteStudent(e, item.id)} className='btn btn-danger btn-sm'>Delete</button>
+                                <button type="button" onClick={(e) => this.deleteEmployee(e, item.id)} className='btn btn-danger btn-sm'>Delete</button>
                             </td>
 
                         </tr>
